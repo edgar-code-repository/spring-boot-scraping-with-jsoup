@@ -1,4 +1,4 @@
-package com.example.scraping.repository;
+package com.example.scraping.repository.scraping;
 
 import com.example.scraping.dto.CountryDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 @Slf4j
-public class CountryWikipediaRepository implements CountryScrapingRepository {
+public class CountryWikipediaRepositoryImpl implements CountryScrapingRepository {
 
     @Value("${unCountriesWikipedia}")
     private String countriesURL;
@@ -34,7 +34,7 @@ public class CountryWikipediaRepository implements CountryScrapingRepository {
             for(Element element: tableRows) {
                 if (contador <= 193) {
                     CountryDTO country = CountryDTO.builder()
-                            .id(contador)
+                            .countryId(contador)
                             .name(element.text())
                             .url(element.attr("abs:href"))
                             .build();
@@ -47,7 +47,7 @@ public class CountryWikipediaRepository implements CountryScrapingRepository {
             }
         }
         catch (Exception e) {
-            log.error("[getCountries] [Error: " + e.toString() + "]");
+            log.error("[getCountries] [Error: " + e + "]");
         }
 
         log.info("[getCountries] [countries list size: " +  countryList.size() + "]");

@@ -1,7 +1,9 @@
 package com.example.scraping.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -9,9 +11,11 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class CountryDTO {
 
-    private int id;
+    private int countryId;
     private String name;
     private String url;
 

@@ -1,4 +1,4 @@
-package com.example.scraping.repository;
+package com.example.scraping.repository.scraping;
 
 import com.example.scraping.dto.CountryDTO;
 

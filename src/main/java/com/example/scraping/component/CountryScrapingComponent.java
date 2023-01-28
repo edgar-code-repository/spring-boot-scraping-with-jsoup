@@ -17,10 +17,11 @@ public class CountryScrapingComponent implements CommandLineRunner {
     private CountryService countryService;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("Running CountryScrapingComponent on startup...");
 
-        List<CountryDTO> countriesWithScraping = countryService.getListCountriesWithScraping();
+        List<CountryDTO> countriesWithScraping = countryService.getCountriesWithScraping();
+        countryService.addCountriesList(countriesWithScraping);
 
 
     }

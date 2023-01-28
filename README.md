@@ -1,8 +1,14 @@
 SCRAPING DATA USING JSOUP LIBRARY
 ---------------------------------------------------------------------------
 
-Rest API the retrieves info about countries scraping data from Wikipedia. 
+Application the retrieves info about countries by scraping data from Wikipedia. 
 
+A list with country members of United Nations is retrieved from this URL:
+
+```
+https://en.wikipedia.org/wiki/Member_states_of_the_United_Nations
+
+```
 ---------------------------------------------------------------------------
 
 Jsoup maven dependency added in pom.xml file: 
