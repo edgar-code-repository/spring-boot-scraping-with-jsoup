@@ -54,4 +54,47 @@ public class CountryWikipediaRepositoryImpl implements CountryScrapingRepository
         return countryList;
     }
 
+    @Override
+    public CountryDTO getCountryDetails(CountryDTO countryDTO) {
+        log.info("[getCountry] [Name: " + countryDTO.getName() + "]");
+
+        try {
+            Document docCountry = Jsoup.connect(countryDTO.getUrl()).get();
+            Elements tableRowsCountry = docCountry.select("table > tbody > tr");
+            for (Element row : tableRowsCountry) {
+                if (row.text().contains("Capital") && countryDTO.getCapital() == null) {
+                    String capital = "";
+
+                    Elements anchorCapital = row.getElementsByTag("a");
+                    if (!anchorCapital.text().trim().equals("")) {
+                        if (anchorCapital.size() == 1 && !anchorCapital.get(0).html().contains("geo-default")
+                                && !anchorCapital.get(0).html().contains("Coordinates")
+                                && !anchorCapital.get(0).html().contains("[")) {
+                            capital = anchorCapital.get(0).html();
+                        }
+                        else if (anchorCapital.size() > 0) {
+                            for (int index = 0; index < anchorCapital.size(); index++) {
+                                if (!anchorCapital.get(index).html().contains("geo-default")
+                                        && !anchorCapital.get(index).html().contains("Coordinates")
+                                        && !anchorCapital.get(index).html().contains("[")) {
+                                    if (index == 0)
+                                        capital = anchorCapital.get(index).html();
+                                    else
+                                        capital = capital + " - " + anchorCapital.get(index).html();
+                                }
+                            }
+                        }
+                    }
+                    countryDTO.setCapital(capital);
+                }
+            }
+        }
+        catch (Exception e) {
+            log.error("[getCountry] [Error: " + e + "]");
+        }
+
+        return countryDTO;
+    }
+
+
 }

@@ -25,8 +25,12 @@ public class CountryService {
         return countryScrapingRepository.getCountries();
     }
 
-    public void addCountriesList(List<CountryDTO> countries) {
-        log.info("[addCountriesList][countries size: " + countries.size() + "]");
+    public CountryDTO getCountryInfoWithScraping(CountryDTO countryDTO) {
+        return countryScrapingRepository.getCountryDetails(countryDTO);
+    }
+
+    public void saveCountriesList(List<CountryDTO> countries) {
+        log.info("[saveCountriesList][countries size: " + countries.size() + "]");
         ModelMapper modelMapper = new ModelMapper();
 
         countries.forEach(countryDTO -> {
@@ -34,7 +38,7 @@ public class CountryService {
             countryRepository.save(country);
         });
 
-        log.info("[addCountriesList][countries saved successfully!]");
+        log.info("[saveCountriesList][countries saved successfully!]");
 
     }
 

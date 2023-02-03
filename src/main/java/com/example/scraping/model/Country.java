@@ -27,6 +27,8 @@ public class Country {
 
     private String name;
 
+    private String capital;
+
     private String url;
 
 }

@@ -21,7 +21,8 @@ public class CountryScrapingComponent implements CommandLineRunner {
         log.info("Running CountryScrapingComponent on startup...");
 
         List<CountryDTO> countriesWithScraping = countryService.getCountriesWithScraping();
-        countryService.addCountriesList(countriesWithScraping);
+        countriesWithScraping.forEach(country -> countryService.getCountryInfoWithScraping(country));
+        countryService.saveCountriesList(countriesWithScraping);
 
 
     }
