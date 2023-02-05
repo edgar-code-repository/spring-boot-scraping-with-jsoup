@@ -38,7 +38,7 @@ public class CountryService {
             countryRepository.save(country);
         });
 
-        log.info("[saveCountriesList][countries saved successfully!]");
+        log.info("[saveCountriesList][countries saved successfully to DB!]");
 
     }
 

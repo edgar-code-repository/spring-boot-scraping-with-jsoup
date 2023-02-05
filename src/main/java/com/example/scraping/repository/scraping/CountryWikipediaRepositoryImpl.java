@@ -39,7 +39,7 @@ public class CountryWikipediaRepositoryImpl implements CountryScrapingRepository
                             .url(element.attr("abs:href"))
                             .build();
 
-                    log.info(country.toString());
+                    //log.info(country.toString());
 
                     countryList.add(country);
                     contador++;
