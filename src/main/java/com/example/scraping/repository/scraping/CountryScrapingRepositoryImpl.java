@@ -14,36 +14,29 @@ import java.util.List;
 
 @Repository
 @Slf4j
-public class CountryWikipediaRepositoryImpl implements CountryScrapingRepository {
+public class CountryScrapingRepositoryImpl implements CountryScrapingRepository {
 
-    @Value("${unCountriesWikipedia}")
-    private String countriesURL;
+    @Value("${urlCountriesUnitedNations}")
+    private String urlCountriesUnitedNations;
 
     @Override
     public List<CountryDTO> getCountries() {
-        log.info("[getCountries] [Calling URL: " + countriesURL + "]");
+        log.info("[getCountries] [Calling URL: " + urlCountriesUnitedNations + "]");
 
         List<CountryDTO> countryList = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect(countriesURL).get();
-            Elements tableRows = doc.select("table > tbody > tr > th > a");
+            Document doc = Jsoup.connect(urlCountriesUnitedNations).get();
+            Elements cardsCountries = doc.select("div.card");
 
-            log.info("[getCountries] [Parsing countries...]");
+            int count = 1;
+            for(Element card: cardsCountries) {
+                Element countryElement = card.select("h2").first();
 
-            int contador = 1;
-            for(Element element: tableRows) {
-                if (contador <= 193) {
-                    CountryDTO country = CountryDTO.builder()
-                            .countryId(contador)
-                            .name(element.text())
-                            .url(element.attr("abs:href"))
-                            .build();
+                CountryDTO country = new CountryDTO();
+                country.setName(countryElement.text());
 
-                    //log.info(country.toString());
-
-                    countryList.add(country);
-                    contador++;
-                }
+                countryList.add(country);
+                count++;
             }
         }
         catch (Exception e) {
@@ -55,7 +48,7 @@ public class CountryWikipediaRepositoryImpl implements CountryScrapingRepository
     }
 
     @Override
-    public CountryDTO getCountryDetails(CountryDTO countryDTO) {
+    public CountryDTO getCountryDetailsFromWikipedia(CountryDTO countryDTO) {
         log.info("[getCountry] [Name: " + countryDTO.getName() + "]");
 
         try {

@@ -8,6 +8,6 @@ public interface CountryScrapingRepository {
 
     List<CountryDTO> getCountries();
 
-    CountryDTO getCountryDetails(CountryDTO countryDTO);
+    CountryDTO getCountryDetailsFromWikipedia(CountryDTO countryDTO);
 
 }

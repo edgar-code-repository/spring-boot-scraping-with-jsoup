@@ -1,26 +1,27 @@
-package com.example.scraping.service;
+package com.example.scraping.repository.file;
 
 import com.example.scraping.dto.CountryDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
+@Repository
 @Slf4j
-public class CountryFileService {
+public class CountryFileRepositoryImpl implements CountryFileRepository {
 
     @Value("${countriesFilePath}")
     private String countriesFilePath;
 
     @Value("${countriesFileExtension}")
     private String countriesFileExtension;
-    public void saveCountryListToFile(List<CountryDTO> countries) {
-        log.info("[saveCountryListToFile][Saving countries to file...]");
+
+    public void saveCountryList(List<CountryDTO> countries) {
+        log.info("[saveCountryList][Saving countries to file...]");
         try {
             FileWriter writer = new FileWriter(countriesFilePath + LocalDateTime.now() + countriesFileExtension);
 //            for (CountryDTO country: countries) {
@@ -28,10 +29,10 @@ public class CountryFileService {
 //            };
 
             writer.close();
-            log.info("[saveCountryListToFile][countries saved successfully to file!]");
+            log.info("[saveCountryList][countries saved successfully to file!]");
         }
         catch (IOException e) {
-            log.error("[saveCountryListToFile][Error: " + e + "]");
+            log.error("[saveCountryList][Error: " + e + "]");
         }
     }
 

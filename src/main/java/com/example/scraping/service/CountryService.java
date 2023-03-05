@@ -3,6 +3,7 @@ package com.example.scraping.service;
 import com.example.scraping.dto.CountryDTO;
 import com.example.scraping.model.Country;
 import com.example.scraping.repository.db.CountryRepository;
+import com.example.scraping.repository.file.CountryFileRepository;
 import com.example.scraping.repository.scraping.CountryScrapingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -21,16 +22,19 @@ public class CountryService {
     @Autowired
     private CountryRepository countryRepository;
 
+    @Autowired
+    private CountryFileRepository countryFileRepository;
+
     public List<CountryDTO> getCountriesWithScraping() {
         return countryScrapingRepository.getCountries();
     }
 
-    public CountryDTO getCountryInfoWithScraping(CountryDTO countryDTO) {
-        return countryScrapingRepository.getCountryDetails(countryDTO);
+    public CountryDTO getCountryInfoFromWikipedia(CountryDTO countryDTO) {
+        return countryScrapingRepository.getCountryDetailsFromWikipedia(countryDTO);
     }
 
-    public void saveCountriesList(List<CountryDTO> countries) {
-        log.info("[saveCountriesList][countries size: " + countries.size() + "]");
+    public void saveCountryListToDB(List<CountryDTO> countries) {
+        log.info("[saveCountryListToDB][countries size: " + countries.size() + "]");
         ModelMapper modelMapper = new ModelMapper();
 
         countries.forEach(countryDTO -> {
@@ -40,6 +44,11 @@ public class CountryService {
 
         log.info("[saveCountriesList][countries saved successfully to DB!]");
 
+    }
+
+    public void saveCountryListToFile(List<CountryDTO> countries) {
+        log.info("[saveCountryListToFile][countries size: " + countries.size() + "]");
+        countryFileRepository.saveCountryList(countries);
     }
 
 
