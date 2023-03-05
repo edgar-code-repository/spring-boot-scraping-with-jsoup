@@ -43,7 +43,6 @@ public class CountryService {
         });
 
         log.info("[saveCountriesList][countries saved successfully to DB!]");
-
     }
 
     public void saveCountryListToFile(List<CountryDTO> countries) {

@@ -22,9 +22,9 @@ public class CountryScrapingComponent implements CommandLineRunner {
         log.info("Running CountryScrapingComponent on startup...");
 
         List<CountryDTO> countriesWithScraping = countryService.getCountriesWithScraping();
-        //countriesWithScraping.forEach(country -> countryService.getCountryInfoFromWikipedia(country));
+        countriesWithScraping.forEach(country -> countryService.getCountryInfoFromWikipedia(country));
         countryService.saveCountryListToDB(countriesWithScraping);
-        //countryService.saveCountryListToFile(countriesWithScraping);
+        countryService.saveCountryListToFile(countriesWithScraping);
 
 
     }

@@ -24,10 +24,9 @@ public class CountryFileRepositoryImpl implements CountryFileRepository {
         log.info("[saveCountryList][Saving countries to file...]");
         try {
             FileWriter writer = new FileWriter(countriesFilePath + LocalDateTime.now() + countriesFileExtension);
-//            for (CountryDTO country: countries) {
-//                writer.write(country.getCountryId() + ";" + country.getName() + ";" + country.getCapital() + "\n");
-//            };
-
+            for (CountryDTO country: countries) {
+                writer.write(country.getCountryId() + ";" + country.getName() + ";" + country.getOfficialName() + ";" + country.getCapital() + "\n");
+            };
             writer.close();
             log.info("[saveCountryList][countries saved successfully to file!]");
         }

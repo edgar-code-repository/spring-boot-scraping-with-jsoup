@@ -24,11 +24,9 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int countryId;
-
     private String name;
-
+    private String officialName;
     private String capital;
-
     private String url;
 
 }

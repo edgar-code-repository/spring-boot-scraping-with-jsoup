@@ -1,6 +1,7 @@
 package com.example.scraping.repository.scraping;
 
 import com.example.scraping.dto.CountryDTO;
+import com.example.scraping.util.CountryScrapingUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,6 +20,9 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
     @Value("${urlCountriesUnitedNations}")
     private String urlCountriesUnitedNations;
 
+    @Value("${baseUrlWikipedia}")
+    private String baseUrlWikipedia;
+
     @Override
     public List<CountryDTO> getCountries() {
         log.info("[getCountries] [Calling URL: " + urlCountriesUnitedNations + "]");
@@ -33,7 +37,11 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
                 Element countryElement = card.select("h2").first();
 
                 CountryDTO country = new CountryDTO();
+                country.setCountryId(count);
                 country.setName(countryElement.text());
+
+                String urlWikipedia = CountryScrapingUtil.fixWikipediaUrl(baseUrlWikipedia, countryElement.text());
+                country.setUrlWikipedia(urlWikipedia);
 
                 countryList.add(country);
                 count++;
@@ -49,43 +57,22 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
 
     @Override
     public CountryDTO getCountryDetailsFromWikipedia(CountryDTO countryDTO) {
-        log.info("[getCountry] [Name: " + countryDTO.getName() + "]");
-
+        log.info("[getCountryDetailsFromWikipedia] [" + countryDTO.toString() + "]");
         try {
-            Document docCountry = Jsoup.connect(countryDTO.getUrl()).get();
-            Elements tableRowsCountry = docCountry.select("table > tbody > tr");
-            for (Element row : tableRowsCountry) {
-                if (row.text().contains("Capital") && countryDTO.getCapital() == null) {
-                    String capital = "";
+            Document doc = Jsoup.connect(countryDTO.getUrlWikipedia()).get();
+            if (doc == null) return null;
+            Elements infoBox = doc.select("table.infobox");
+            if (infoBox == null) return null;
 
-                    Elements anchorCapital = row.getElementsByTag("a");
-                    if (!anchorCapital.text().trim().equals("")) {
-                        if (anchorCapital.size() == 1 && !anchorCapital.get(0).html().contains("geo-default")
-                                && !anchorCapital.get(0).html().contains("Coordinates")
-                                && !anchorCapital.get(0).html().contains("[")) {
-                            capital = anchorCapital.get(0).html();
-                        }
-                        else if (anchorCapital.size() > 0) {
-                            for (int index = 0; index < anchorCapital.size(); index++) {
-                                if (!anchorCapital.get(index).html().contains("geo-default")
-                                        && !anchorCapital.get(index).html().contains("Coordinates")
-                                        && !anchorCapital.get(index).html().contains("[")) {
-                                    if (index == 0)
-                                        capital = anchorCapital.get(index).html();
-                                    else
-                                        capital = capital + " - " + anchorCapital.get(index).html();
-                                }
-                            }
-                        }
-                    }
-                    countryDTO.setCapital(capital);
-                }
-            }
+            CountryScrapingUtil.parseCapital(countryDTO, infoBox);
+            CountryScrapingUtil.parseOfficialName(countryDTO, infoBox);
+
+            log.info("[getCountryDetailsFromWikipedia][official name: " + countryDTO.getOfficialName() + "]");
+            log.info("[getCountryDetailsFromWikipedia][capital: " + countryDTO.getCapital() + "]");
         }
         catch (Exception e) {
-            log.error("[getCountry] [Error: " + e + "]");
+            log.error("[getCountryDetailsFromWikipedia][Error: " + e.toString() + "]");
         }
-
         return countryDTO;
     }
 

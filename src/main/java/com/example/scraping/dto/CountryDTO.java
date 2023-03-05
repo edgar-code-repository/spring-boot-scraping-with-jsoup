@@ -17,7 +17,8 @@ public class CountryDTO {
 
     private int countryId;
     private String name;
-    private String url;
+    private String officialName;
+    private String urlWikipedia;
     private String capital;
 
 }
