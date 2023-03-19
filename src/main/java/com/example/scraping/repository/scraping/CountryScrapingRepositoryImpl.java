@@ -23,6 +23,9 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
     @Value("${baseUrlWikipedia}")
     private String baseUrlWikipedia;
 
+    @Value("${countriesUrlWorldBankData}")
+    private String countriesUrlWorldBankData;
+
     @Override
     public List<CountryDTO> getCountries() {
         log.info("[getCountries] [Calling URL: " + urlCountriesUnitedNations + "]");
@@ -42,6 +45,9 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
 
                 String urlWikipedia = CountryScrapingUtil.fixWikipediaUrl(baseUrlWikipedia, countryElement.text());
                 country.setUrlWikipedia(urlWikipedia);
+
+                String urlWorldBank = CountryScrapingUtil.fixWorldBankUrl(countriesUrlWorldBankData, countryElement.text());
+                country.setUrlWorldBank(urlWorldBank);
 
                 countryList.add(country);
                 count++;
@@ -69,9 +75,31 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
 
             log.info("[getCountryDetailsFromWikipedia][official name: " + countryDTO.getOfficialName() + "]");
             log.info("[getCountryDetailsFromWikipedia][capital: " + countryDTO.getCapital() + "]");
+
+            Thread.sleep(2000);
         }
         catch (Exception e) {
             log.error("[getCountryDetailsFromWikipedia][Error: " + e.toString() + "]");
+        }
+        return countryDTO;
+    }
+
+    @Override
+    public CountryDTO getCountryDetailsFromWorldBank(CountryDTO countryDTO) {
+        log.info("[getCountryDetailsFromWorldBank] [Country: " + countryDTO.getName() + "]");
+        try {
+            Document doc = Jsoup.connect(countryDTO.getUrlWorldBank()).get();
+
+            Elements asideElement = doc.select("aside");
+            Elements sectionBody = doc.select("section.body");
+
+            CountryScrapingUtil.parseCountryDetailsFromWorldBank(countryDTO, asideElement);
+
+            log.info("[getCountryDetailsFromWorldBank][region: " + countryDTO.getRegion() + "]");
+            log.info("[getCountryDetailsFromWorldBank][income category: " + countryDTO.getIncomeCategory() + "]");
+        }
+        catch (Exception e) {
+            log.error("[getCountryDetailsFromWorldBank][Error: " + e.toString() + "]");
         }
         return countryDTO;
     }

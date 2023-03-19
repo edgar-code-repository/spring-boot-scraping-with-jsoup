@@ -10,4 +10,6 @@ public interface CountryScrapingRepository {
 
     CountryDTO getCountryDetailsFromWikipedia(CountryDTO countryDTO);
 
+    CountryDTO getCountryDetailsFromWorldBank(CountryDTO countryDTO);
+
 }

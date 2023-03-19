@@ -37,6 +37,14 @@ public class CountryScrapingUtil {
         return baseUrl + "/" + countryName;
     }
 
+    public static String fixWorldBankUrl(String baseUrl, String countryName) {
+        int spaceIndex = countryName.indexOf(" ");
+        if (spaceIndex != -1) {
+            countryName = countryName.substring(0, spaceIndex);
+        }
+        return baseUrl + "/" + countryName;
+    }
+
     public static void parseCapital(CountryDTO countryDTO, Elements infoBox) {
         if (countryDTO.getName().equals("Singapore")) {
             countryDTO.setCapital("Singapore");
@@ -74,4 +82,21 @@ public class CountryScrapingUtil {
             countryDTO.setOfficialName(cellCountryName.select("div.fn").text());
         }
     }
+
+    public static void parseCountryDetailsFromWorldBank(CountryDTO countryDTO, Elements asideElement) {
+        Elements liElements = asideElement.select("ul > li");
+        if (liElements != null) {
+            for (Element element : liElements) {
+                if (element.html().contains("Region")) {
+                    Element anchorRegion = element.select("a").first();
+                    countryDTO.setRegion(anchorRegion.text());
+                }
+                else if (element.html().contains("Income level")) {
+                    Element anchorIncome = element.select("a").first();
+                    countryDTO.setIncomeCategory(anchorIncome.text());
+                }
+            }
+        }
+    }
+
 }

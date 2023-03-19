@@ -21,8 +21,16 @@ public class CountryScrapingComponent implements CommandLineRunner {
     public void run(String... args) {
         log.info("Running CountryScrapingComponent on startup...");
 
+        log.info("Retrieving list of countries from United Nations webpage...");
         List<CountryDTO> countriesWithScraping = countryService.getCountriesWithScraping();
-        countriesWithScraping.forEach(country -> countryService.getCountryInfoFromWikipedia(country));
+
+        //log.info("Details of each country are retrieved from Wikipedia...");
+        //countriesWithScraping.forEach(country -> countryService.getCountryInfoFromWikipedia(country));
+
+        log.info("Details of each country are retrieved from World Bank...");
+        countriesWithScraping.forEach(country -> countryService.getCountryInfoFromWorldBank(country));
+
+        log.info("List of countries is stored in H2 database and a file...");
         countryService.saveCountryListToDB(countriesWithScraping);
         countryService.saveCountryListToFile(countriesWithScraping);
 

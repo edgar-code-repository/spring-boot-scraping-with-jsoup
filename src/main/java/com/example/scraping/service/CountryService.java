@@ -33,6 +33,10 @@ public class CountryService {
         return countryScrapingRepository.getCountryDetailsFromWikipedia(countryDTO);
     }
 
+    public CountryDTO getCountryInfoFromWorldBank(CountryDTO countryDTO) {
+        return countryScrapingRepository.getCountryDetailsFromWorldBank(countryDTO);
+    }
+
     public void saveCountryListToDB(List<CountryDTO> countries) {
         log.info("[saveCountryListToDB][countries size: " + countries.size() + "]");
         ModelMapper modelMapper = new ModelMapper();
