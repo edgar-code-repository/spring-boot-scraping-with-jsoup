@@ -38,9 +38,78 @@ public class CountryScrapingUtil {
     }
 
     public static String fixWorldBankUrl(String baseUrl, String countryName) {
-        int spaceIndex = countryName.indexOf(" ");
-        if (spaceIndex != -1) {
-            countryName = countryName.substring(0, spaceIndex);
+
+        if (countryName.contains("Bolivia")) {
+            countryName = "bolivia";
+        }
+        else if (countryName.contains("Congo") && !countryName.contains("Democratic")) {
+            countryName = "congo-rep";
+        }
+        else if (countryName.contains("Ivoire")) {
+            countryName = "cote-divoire";
+        }
+        else if (countryName.contains("Gambia")) {
+            countryName = "gambia-the";
+        }
+        else if (countryName.contains("People") && countryName.contains("Korea")) {
+            countryName = "korea-dem-peoples-rep";
+        }
+        else if (countryName.contains("Democratic") && countryName.contains("Congo")) {
+            countryName = "congo-dem-rep";
+        }
+        else if (countryName.contains("Egypt")) {
+            countryName = "egypt-arab-rep";
+        }
+        else if (countryName.contains("Iran")) {
+            countryName = "iran-islamic-rep";
+        }
+        else if (countryName.contains("Kyrgyzstan")) {
+            countryName = "kyrgyz-republic";
+        }
+        else if (countryName.contains("Lao") && countryName.contains("People")) {
+            countryName = "lao-pdr";
+        }
+        else if (countryName.contains("Micronesia")) {
+            countryName = "micronesia-fed-sts";
+        }
+        else if (countryName.contains("Moldova")) {
+            countryName = "moldova";
+        }
+        else if (!countryName.contains("People") && countryName.contains("Korea")) {
+            countryName = "korea-rep";
+        }
+        else if (countryName.contains("Kitts")) {
+            countryName = "st-kitts-and-nevis";
+        }
+        else if (countryName.contains("Saint Lucia")) {
+            countryName = "st-lucia";
+        }
+        else if (countryName.contains("Grenadines")) {
+            countryName = "st-vincent-and-the-grenadines";
+        }
+        else if (countryName.contains("Slovakia")) {
+            countryName = "slovak-republic";
+        }
+        else if (countryName.contains("United Kingdom")) {
+            countryName = "united-kingdom";
+        }
+        else if (countryName.contains("Tanzania")) {
+            countryName = "tanzania";
+        }
+        else if (countryName.contains("United States")) {
+            countryName = "united-states";
+        }
+        else if (countryName.contains("Venezuela")) {
+            countryName = "venezuela-rb";
+        }
+        else if (countryName.contains("Viet Nam")) {
+            countryName = "vietnam";
+        }
+        else if (countryName.contains("Yemen")) {
+            countryName = "yemen-rep";
+        }
+        else {
+            countryName = countryName.trim().replace(' ', '-');
         }
         return baseUrl + "/" + countryName;
     }

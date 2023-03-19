@@ -24,8 +24,8 @@ public class CountryScrapingComponent implements CommandLineRunner {
         log.info("Retrieving list of countries from United Nations webpage...");
         List<CountryDTO> countriesWithScraping = countryService.getCountriesWithScraping();
 
-        //log.info("Details of each country are retrieved from Wikipedia...");
-        //countriesWithScraping.forEach(country -> countryService.getCountryInfoFromWikipedia(country));
+        log.info("Details of each country are retrieved from Wikipedia...");
+        countriesWithScraping.forEach(country -> countryService.getCountryInfoFromWikipedia(country));
 
         log.info("Details of each country are retrieved from World Bank...");
         countriesWithScraping.forEach(country -> countryService.getCountryInfoFromWorldBank(country));

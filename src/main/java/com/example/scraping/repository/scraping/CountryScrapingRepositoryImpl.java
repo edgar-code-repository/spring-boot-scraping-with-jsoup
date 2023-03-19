@@ -88,6 +88,7 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
     public CountryDTO getCountryDetailsFromWorldBank(CountryDTO countryDTO) {
         log.info("[getCountryDetailsFromWorldBank] [Country: " + countryDTO.getName() + "]");
         try {
+            Thread.sleep(1000);
             Document doc = Jsoup.connect(countryDTO.getUrlWorldBank()).get();
 
             Elements asideElement = doc.select("aside");
