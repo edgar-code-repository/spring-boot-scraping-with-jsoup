@@ -65,6 +65,8 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
     public CountryDTO getCountryDetailsFromWikipedia(CountryDTO countryDTO) {
         log.info("[getCountryDetailsFromWikipedia] [" + countryDTO.toString() + "]");
         try {
+            Thread.sleep(1000);
+
             Document doc = Jsoup.connect(countryDTO.getUrlWikipedia()).get();
             if (doc == null) return null;
             Elements infoBox = doc.select("table.infobox");
@@ -76,7 +78,6 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
             log.info("[getCountryDetailsFromWikipedia][official name: " + countryDTO.getOfficialName() + "]");
             log.info("[getCountryDetailsFromWikipedia][capital: " + countryDTO.getCapital() + "]");
 
-            Thread.sleep(2000);
         }
         catch (Exception e) {
             log.error("[getCountryDetailsFromWikipedia][Error: " + e.toString() + "]");
@@ -87,8 +88,10 @@ public class CountryScrapingRepositoryImpl implements CountryScrapingRepository 
     @Override
     public CountryDTO getCountryDetailsFromWorldBank(CountryDTO countryDTO) {
         log.info("[getCountryDetailsFromWorldBank] [Country: " + countryDTO.getName() + "]");
+        log.info("[getCountryDetailsFromWorldBank] [Url World Bank: " + countryDTO.getUrlWorldBank() + "]");
         try {
             Thread.sleep(1000);
+
             Document doc = Jsoup.connect(countryDTO.getUrlWorldBank()).get();
 
             Elements asideElement = doc.select("aside");

@@ -32,8 +32,7 @@ public class CountryScrapingComponent implements CommandLineRunner {
 
         log.info("List of countries is stored in H2 database and a file...");
         countryService.saveCountryListToDB(countriesWithScraping);
-        countryService.saveCountryListToFile(countriesWithScraping);
-
+        //countryService.saveCountryListToFile(countriesWithScraping);
 
     }
 }

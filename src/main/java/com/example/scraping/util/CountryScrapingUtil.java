@@ -160,9 +160,12 @@ public class CountryScrapingUtil {
                     Element anchorRegion = element.select("a").first();
                     countryDTO.setRegion(anchorRegion.text());
                 }
-                else if (element.html().contains("Income level")) {
+                else if (element.html().contains("Income level") && !element.html().contains("Not classified")) {
                     Element anchorIncome = element.select("a").first();
                     countryDTO.setIncomeCategory(anchorIncome.text());
+                }
+                else if (element.html().contains("Income level") && element.html().contains("Not classified")) {
+                    countryDTO.setIncomeCategory("Not classified");
                 }
             }
         }

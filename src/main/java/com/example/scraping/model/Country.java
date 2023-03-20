@@ -27,6 +27,10 @@ public class Country {
     private String name;
     private String officialName;
     private String capital;
-    private String url;
+    private String urlWikipedia;
+    private String urlWorldBank;
+    private String region;
+    private String incomeCategory;
+
 
 }
